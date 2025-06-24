@@ -1,13 +1,13 @@
-<div [ngClass]="{ dark: isDark === true, '': isDark === false }" class="">
+<div>
   <div
-    class="h-full bg-gray-100 dark:bg-gray-900 leading-normal tracking-normal dark:text-indigo-400 text-black"
+    class="h-full bg-gray-100 dark:bg-gray-900 leading-normal tracking-normal"
     [ngClass]="{ 'gradient-background': isDark === true, 'background-white': isDark === false }"
   >
     <!-- Nav  -->
     <nav
       class="w-full fixed top-0 z-50 p-3"
       [ngClass]="{
-        'bg-gradient-to-r from-gray-300 from-10% via-sky-300 via-30% to-emerald-300 to-90% dark:from-gray-800 dark:from-10% dark:via-sky-800 dark:via-30% dark:to-emerald-900 dark:to-90%':
+        'bg-gradient-to-r from-gray-100 from-10% via-pink-200 via-30% to-blue-300 to-90% dark:from-gray-800 dark:from-10% dark:via-sky-800 dark:via-30% dark:to-emerald-900 dark:to-90%':
           hasScrolled,
       }"
     >
@@ -18,7 +18,7 @@
           </a>
 
           <div class="flex w-1/2 justify-center content-center">
-            <a class="text-2xl text-bold text-black dark:text-white" href="#screenshots">{{ 'pages.landing.screenshots' | translate }}</a>
+            <a class="text-2xl font-bold text-gray-600 dark:text-white" href="#screenshots">{{ 'pages.landing.screenshots' | translate }}</a>
           </div>
           <div class="flex w-1/2 justify-end content-center">
             <a
@@ -26,17 +26,25 @@
               href="https://github.com/norskhelsenett/ROR"
               target="_blank"
             >
-              <img *ngIf="isDark" ngSrc="/assets/icons/github/github-mark-white.svg" alt="github logo" fill />
-              <img *ngIf="!isDark" ngSrc="/assets/icons/github/github-mark.svg" alt="github logo" fill />
+              @if (isDark) {
+                <img src="/assets/icons/github/github-mark-white.svg" alt="github logo" class="h-8" />
+              }
+              @if (!isDark) {
+                <img src="/assets/icons/github/github-mark.svg" alt="github logo" class="h-8" />
+              }
             </a>
           </div>
           <div class="flex">
-            <button (click)="useLanguage('no')" *ngIf="lang === 'en'">
-              <span class="bg-white dark:bg-black text-black dark:text-gray-100 p-2">NO</span>
-            </button>
-            <button (click)="useLanguage('en')" *ngIf="lang === 'no'">
-              <span class="bg-white dark:bg-black text-black dark:text-gray-100 p-2">EN</span>
-            </button>
+            @if (lang === 'en') {
+              <button (click)="useLanguage('no')">
+                <span class="bg-white dark:bg-black text-black dark:text-gray-100 p-2">NO</span>
+              </button>
+            }
+            @if (lang === 'no') {
+              <button (click)="useLanguage('en')">
+                <span class="bg-white dark:bg-black text-black dark:text-gray-100 p-2">EN</span>
+              </button>
+            }
           </div>
           <a class="" (click)="toggleDark()">
             <label class="swap swap-rotate">
@@ -66,11 +74,11 @@
     <div class="container pt-24 md:pt-36 mx-auto flex flex-wrap flex-col md:flex-row items-center">
       <!--Left Col-->
       <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
-        <h1 class="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
+        <h1 class="my-4 text-3xl md:text-5xl text-white dark:text-gray-900 opacity-75 font-bold leading-tight text-center md:text-left">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500"> {{ 'fullName' | translate }} </span>
-          <span class="text-gray-900 dark:text-gray-100">{{ 'pages.landing.title' | translate }}</span>
+          <span class="text-slate-900 dark:text-white">{{ 'pages.landing.title' | translate }}</span>
         </h1>
-        <p class="leading-normal md:text-2xl mb-8 text-center md:text-left dark:text-indigo-400 text-indigo-900">
+        <p class="leading-normal md:text-2xl mb-8 text-center md:text-left dark:text-gray-300 text-gray-800">
           {{ 'pages.landing.description' | translate }}
         </p>
       </div>
@@ -130,7 +138,7 @@
 
     <div class="bg-transparent container mx-auto">
       <div class="w-full pt-6 pb-16 text-sm text-center md:text-left fade-in">
-        <span class="flex flex-row"> © {{ date | date: 'yyyy' }}, {{ 'pages.landing.footer' | translate }} </span>
+        <span class="flex flex-row text-gray-600 dark:text-gray-400"> © {{ date | date: 'yyyy' }}, {{ 'pages.landing.footer' | translate }} </span>
       </div>
     </div>
   </div>

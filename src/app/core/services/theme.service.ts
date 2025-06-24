@@ -1,35 +1,51 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
+  private document: Document = inject(DOCUMENT);
   isDark = new BehaviorSubject<boolean>(true);
 
-  private isLocalStorageAvailable = typeof localStorage !== 'undefined';
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+    let isDark = false;
+    if (isPlatformBrowser(this.platformId)) {
+      isDark = localStorage.getItem('isDark') == 'true';
+    }
 
-  constructor() {
-    if (this.isLocalStorageAvailable) {
-      const localIsDark = window.localStorage.getItem('isDark');
-      if (localIsDark === null) {
-        this.isDark.next(true);
-        return;
-      }
-
-      const isDark = localIsDark == 'true';
-      if (isDark === true) {
-        this.isDark.next(true);
-      } else {
-        this.isDark.next(false);
-      }
+    if (isDark === true) {
+      this.isDark.next(true);
+      this.setDarkTheme();
+    } else {
+      this.isDark.next(false);
+      this.setLightTheme();
     }
   }
 
   setDark(setDark: boolean): void {
     this.isDark.next(setDark);
-    if (this.isLocalStorageAvailable) {
-      localStorage['isDark'] = setDark;
+    if (this.isDark?.getValue() === true) {
+      this.setDarkTheme();
+    } else {
+      this.setLightTheme();
+    }
+  }
+
+  setLightTheme(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('isDark', false.toString());
+      document?.querySelector('html')?.classList.remove('dark');
+      document?.querySelector('body')?.classList.remove('dark');
+    }
+  }
+
+  setDarkTheme(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('isDark', true.toString());
+      document?.querySelector('html')?.classList.add('dark');
+      document?.querySelector('body')?.classList.add('dark');
     }
   }
 }

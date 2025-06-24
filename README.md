@@ -17,8 +17,8 @@ To build containers you must have docker or podman
 - open this repo in your favorite IDE
 - get dependencies
 - to run with watch mode
-  `npm i` or `bun i`
-- `npm start` or ```bun run start````
+  `npm i`
+- `npm start`
 
 ## Build and run with containers
 

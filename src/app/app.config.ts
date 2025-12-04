@@ -9,9 +9,6 @@ import { TranslateLoader, TranslateModule, provideTranslateService } from '@ngx-
 import { TranslateHttpLoader, provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideServiceWorker } from '@angular/service-worker';
 
-
-
-
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
   anchorScrolling: 'enabled',
